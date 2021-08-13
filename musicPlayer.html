@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- description 网站说明 -->
+   <meta name="description"
+       content="17音乐，一起听音乐，仅供学习使用，未经本人同意，切勿商用.本网站接口由网易云提供" />
+   <!-- keywords 关键字 -->
+   <meta name=" keywords" content="music，网易云音乐，mv" />
+    <title>17music</title>
+    <link rel="stylesheet" href="./css/music.css">
+    <link rel="stylesheet" href="./font/iconfont.css">
+    <link rel="stylesheet" href="./css/player.css">
+    <link rel="stylesheet" href="music.js">
+    <link rel="shortcut icon" href="./images/17.ico" type="image/x-icon">
+</head>
+
+<body >
+    <div class="box" id="app">
+        <!-- 头部，搜索部分 -->
+        <div class="top">
+            <h2>17音乐，一起音乐</h2>
+            <input type="text" placeholder="请先搜索歌曲" id="serach" @keyup.enter='serachmusic' v-model='serach'>
+            <button @click='serachmusic'></button>
+        </div>
+        <!-- 主体部分，歌曲列表，播放动画，评论 -->
+        <div class="musicbody">
+            <!-- v-bind:style='{"background-image":"url("+picUrl+")"}'> -->
+            <ul>
+                <li v-for='item in musiclist' class="songs">
+                     <i class="song" @click='playmusic(item.id)' >&#xe675;</i>
+                     {{item.name}}
+                    <span  class="mv" v-if='item.mvid!=0' @click='playmv(item.mvid)'>&#xe605;</span>
+                </li>
+              
+
+            </ul>
+
+
+           <div class="player_con" :class='{playing:isPlaying}'>
+               <img
+                   src="https://nextlab.oss-cn-shanghai.aliyuncs.com/img/gZHko2WlpJNcGPv.png" class="play_bar"> <img
+                   src="https://nextlab.oss-cn-shanghai.aliyuncs.com/img/hQPuH4gNRx7XayI.png" class="disc autoRotate">
+               <img :src="picUrl " class="cover autoRotate" @click="bf();"></div>
+
+            <div class="hotpl">
+                <h4>热门留言</h4>
+                <dl v-for='item in hotComments'>
+
+                    <dt><img :src="item.user.avatarUrl" alt=""> </dt>
+                        <dd id="toux">{{item.user.nickname}}</dd>
+                        <dd id="pl">{{item.content}} </dd>
+                   
+                </dl>
+
+            </div>
+
+        </div>
+        <!-- audio音频播放 -->
+        <div class="footer">
+            <audio :src="musicurl" @play='play' @pause='pause'  controls loop muted autoplay></audio>
+        </div>
+        <!-- MV 视频播放 -->
+        <div class="video_con" style="display: none;" v-show='isShow'>
+            <video   video :src="mvurl" autoplay controls loop></video>
+            <div class="mask" @click='hide'></div>
+        </div>
+    </div>
+    <!-- 切换背景 -->
+    <div class="changeBackground">
+        
+        <ul class="change">
+            <li><img src="./images/1.jpg" alt=""></li>
+            <li><img src="./images/2.jpg" alt=""></li>
+            <li><img src="./images/3.jpg" alt=""></li>
+            <li><img src="./images/4.jpg" alt=""></li>
+        </ul>
+    </div>
+    <footer>
+        <p>17音乐，一起听音乐，仅供学习使用，欢迎交流学习+QQ776114537</p>
+    </footer>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="./music.js"></script>
+</body>
+<script>
+   //切换背景
+    var img = document.querySelector('.changeBackground').querySelectorAll('img');
+        for ( let i=0 ;i<img.length; i++){
+            img[i].onclick =function(){
+                // this.src 就是我们点击图片的路径           
+                // 把这个路径 this.src 给body 就可以了
+                document.body.style.backgroundImage = 'url(' + this.src + ')';
+            }
+
+        }
+       
+</script>
+
+</html>
